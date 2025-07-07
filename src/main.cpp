@@ -1,17 +1,42 @@
-#include "Grid.hpp"
-#include "../algorithms/ISpreadModel.hpp"
-#include "../algorithms/spreadModel_1.hpp"
-
-using namespace std;
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
+#include "Grid.cpp"
 
 int main() {
+    if (!glfwInit()) {
+        std::cerr << "Failed to initialize GLFW\n";
+        return -1;
+    }
 
-	int rows = 20, cols = 20;
-	GridManager gm(rows, cols);
-	gm.ignite(rows / 2, cols / 2); 
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	SpreadModel_1 model;
-	gm.simulate(model, 50, 200);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL Window", nullptr, nullptr);
+    if (!window) {
+        std::cerr << "Failed to create GLFW window\n";
+        glfwTerminate();
+        return -1;
+    }
 
-	return 0;
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cerr << "Failed to initialize GLAD\n";
+        return -1;
+    }
+
+    while (!glfwWindowShouldClose(window)) {
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    //MainGrid();
+    return 0;
 }

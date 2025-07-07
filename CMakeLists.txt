@@ -1,25 +1,22 @@
 cmake_minimum_required(VERSION 3.10)
 project(ForestFireSim)
 
-# C++17 standard
 set(CMAKE_CXX_STANDARD 17)
+find_package(OpenGL REQUIRED)
+include(FetchContent)
 
-# Include glad and other headers
-include_directories(include)
-
-# Add source files
-add_executable(ForestFireSim
-    src/main.cpp
+FetchContent_Declare(
+  glfw
+  GIT_REPOSITORY https://github.com/glfw/glfw.git
+  GIT_TAG latest
 )
+FetchContent_MakeAvailable(glfw)
 
-# Link libraries depending on platform
-#if (WIN32)
-    # Assuming GLFW is installed system-wide or via vcpkg
-    # find_package(glfw3 CONFIG REQUIRED)
-    # target_link_libraries(ForestFireSim)
-    
-#else()
- #   find_package(OpenGL REQUIRED)
- #   find_package(glfw3 REQUIRED)
- #   target_link_libraries(ForestFireSim PRIVATE glfw OpenGL::GL)
-#endif()
+add_library(glad STATIC libs/glad/src/glad.c)
+target_include_directories(glad PUBLIC libs/glad/include)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE glfw glad OpenGL::GL ${CMAKE_DL_LIBS}
+)
