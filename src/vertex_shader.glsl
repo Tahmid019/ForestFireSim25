@@ -3,6 +3,7 @@ layout(location = 0) in vec3 aPos;
 
 uniform vec2 offset;
 
+
 out vec2 localPos;
 
 void main() {

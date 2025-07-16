@@ -14,12 +14,19 @@ Cell::Cell(
             double slope_angle
         ) : w0(w0), depth(depth), rhop(rhop), sig(sig),
          St(St), Se(Se), Mf(Mf), Mx(Mx), wind(wind), 
-         h_val(h_val), slope_angle(slope_angle),
+         h_val(h_val), slope_angle(slope_angle), isBurning(false),
          Rothermel(w0, depth, rhop, sig, St, Se, Mf, Mx, wind, h_val, slope_angle)
         {}
 
 int Cell::status(){
-    return 1;
+    if(isBurning == true)
+        return 1;
+    else
+        return 0;
+}
+
+void Cell::setBurning(){
+    isBurning = true;
 }
 
 double Cell::getRos(){

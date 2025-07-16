@@ -47,7 +47,7 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    int W=50; int H=50;
+    int W=80; int H=60;
     float cellwidth = 2.0f/W;
     float cellheight = 2.0f/H;
     
@@ -75,30 +75,56 @@ int main() {
     
 
     GLint offset = glGetUniformLocation(shader, "offset");
+
     glUniform2f(glGetUniformLocation(shader, "cellSize"), cellwidth, cellheight);
     glUniform2f(glGetUniformLocation(shader, "borderThickness"), cellwidth * 0.05f, cellheight*0.05f); // adjust as needed
 
+
+
     Surface surface = Surface(W, H);
 
-    Cell cell = surface.getCell(0, 0);
-    int ros = cell.getRos();
+    Cell* cell = surface.getCell(0, 0);
+    int ros = cell->getRos();
 
     cout << "Example of cell 0,0 ros is : " << ros << "\n";
+
+    surface.ignite(surface, 5, 6);
+    std::cout << "GRID [0, 0] burning status : " << surface.getCell(0, 0)->status() << "\n";
+
+    float lastUpdateTime = glfwGetTime();
+    float updateInterval = 0.1f; // seconds between simulation updates
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
         glClearColor(0.f, 0.f, 0.f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
         
-
+        
         for(int i=0; i<W; i++){
             for(int j=0; j<H; j++){
                 GLfloat x = -1.0f + i*cellwidth;
                 GLfloat y = -1.0f + j*cellheight;
+                
+                Cell* curr_cell = surface.getCell(i, j);
+                
+                // conditional colored rendering of each cell
+                if(curr_cell->status() == 1){
+                    GLint isburning = glGetUniformLocation(shader, "isBurning_fromcpu");
+                    glUniform1f(isburning, 1); // set burning to true for frag shader
+                    glUniform2f(glGetUniformLocation(shader, "burning_pos_fromcpu"), x, y);
+                }else{
+                    glUniform1f(glGetUniformLocation(shader, "isBurning_fromcpu"), 0); // set burning to false for frag shader
+                }
 
                 glUniform2f(offset, x, y);
                 glDrawArrays(GL_TRIANGLES, 0, 6);
             }
+        }
+        
+        float currenttime = glfwGetTime();
+        if(currenttime - lastUpdateTime >= updateInterval){
+            surface.update(surface);
+            lastUpdateTime = currenttime;
         }
         
         // glDrawArrays(GL_TRIANGLES, 0, 6);

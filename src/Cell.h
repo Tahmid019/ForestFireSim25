@@ -17,6 +17,7 @@ class Cell : public Rothermel{
         double wind;
         double h_val;
         double slope_angle;
+        bool isBurning;
         std::vector<double> wind_vec;
     public:
         Cell( 
@@ -39,6 +40,7 @@ class Cell : public Rothermel{
             Rothermel(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0) // instantiate model
             {}
         // methods
+        void setBurning();
         int status();
         double getRos();
 };

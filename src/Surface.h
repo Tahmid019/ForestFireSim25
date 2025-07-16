@@ -15,7 +15,11 @@ private:
 public:
     Surface(int width, int height);
 
-    Cell getCell(int i, int j);
+    Cell* getCell(int i, int j);
+
+    void update(Surface& surface);
+
+    void ignite(Surface& surface, int i, int j);
 };
 
 #endif
