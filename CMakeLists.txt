@@ -53,7 +53,7 @@ else()
 endif()
 
 # === GLAD ===
-add_library(glad STATIC libs/glad/src/glad.c)
+add_library(glad STATIC libs/glad/src/glad.c "config/fileroutes.hpp")
 target_include_directories(glad PUBLIC libs/glad/include)
 
 # === Exe ===
@@ -62,6 +62,10 @@ add_executable(${PROJECT_NAME}
     src/Surface.cpp
     src/Cell.cpp
     algorithms/Rothermel.cpp
+ "config/fileroutes.hpp")
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
 )
 
 # === Linking ===

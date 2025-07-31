@@ -1,0 +1,2 @@
+#define VERTEX_SHADER_PATH "C:/Users/tahmi/Documents/Work/ForestFireSim25/test/ForestFireSim25/src/vertex_shader.glsl"
+#define FRAGMENT_SHADERS "C:/Users/tahmi/Documents/Work/ForestFireSim25/test/ForestFireSim25/src/fragment_shader.glsl"

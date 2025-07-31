@@ -4,6 +4,7 @@
 #include "Grid.cpp"
 #include "../algorithms/ISpreadModel.hpp"
 #include "../algorithms/spreadModel_1.hpp"
+#include "../config/fileroutes.hpp"
 #include "Surface.h"
 #include <iostream>
 #include <fstream>
@@ -70,7 +71,7 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     
-    GLuint shader = createShaderProgram("src/vertex_shader.glsl", "src/fragment_shader.glsl");
+    GLuint shader = createShaderProgram(VERTEX_SHADER_PATH, FRAGMENT_SHADERS);
     glUseProgram(shader);
     
 
