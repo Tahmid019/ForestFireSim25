@@ -5,10 +5,12 @@
 #include "../algorithms/ISpreadModel.hpp"
 #include "../algorithms/spreadModel_1.hpp"
 #include "../config/fileroutes.hpp"
-#include "Surface.h"
+#include "../include/Surface.hpp"
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include "config/ScreenConfig.hpp"
 
 using namespace std;
 
@@ -23,7 +25,7 @@ unsigned int createShaderProgram(const char* vertexPath, const char* fragmentPat
 
 int main() {
     if(!glfwInit()){
-        cerr << "Failed to initalize GLFW\n";
+		perror("Failed to initialize GLFW\n");
         return -1;
     }
 
@@ -31,9 +33,9 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "ForestFireSim", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "ForestFireSim", nullptr, nullptr);
     if(window == nullptr){
-        cerr << "Failed to create GLFW Window\n";
+		perror("Failed to create GLFW window\n");
         glfwTerminate();
         return -1;
     }
@@ -48,19 +50,6 @@ int main() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    int W=80; int H=60;
-    float cellwidth = 2.0f/W;
-    float cellheight = 2.0f/H;
-    
-    float vertices[] = {
-        0.0f, 0.0f, 0.0f,
-        cellwidth, 0.0f, 0.0f,
-        cellwidth, cellheight, 0.0f,
-
-        0.0f, 0.0f, 0.0f,
-        0.0f, cellheight, 0.0f,
-        cellwidth, cellheight, 0.0f,
-    };
     
     GLuint vao, vbo;
     glGenVertexArrays(1, &vao);

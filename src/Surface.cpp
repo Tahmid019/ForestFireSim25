@@ -1,5 +1,5 @@
-#include "Surface.h"
-#include "Cell.h"
+#include "../include/Surface.hpp"
+#include "../include/Cell.hpp"
 #include <random>
 #include <vector>
 #include <climits>

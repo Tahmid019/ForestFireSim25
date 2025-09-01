@@ -1,4 +1,4 @@
-#include "Grid.hpp"
+#include "../include/Grid.hpp"
 #include "../algorithms/ISpreadModel.hpp"
 #include "../algorithms/spreadModel_1.hpp"
 
